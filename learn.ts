@@ -1,12 +1,43 @@
+export type TaskStatus = "todo" | "in-progress" | "done";
 
-function greet(name: string): string {
-  return `Hello, ${name}!`;
+export interface Task {
+  id: number;
+  title: string;
+  status: TaskStatus;
 }
 
-function isEven(num: number): boolean {
-  return num % 2 === 0;
+
+let nextId = 1;
+
+
+export function addTask(tasks: Task[], title: string): Task[] {
+  const newTask: Task = {
+    id: nextId++,
+    title: title,
+    status: "todo"
+  };
+  return [...tasks, newTask];
 }
 
-function celsiusToFahrenheit(celsius: number): number {
-  return (celsius * 9) / 5 + 32;
+
+export function completeTask(tasks: Task[], id: number): Task[] {
+  return tasks.map(function (task) {
+    if (task.id === id) {
+      return { ...task, status: "done" };
+    }
+    return task;
+  });
+}
+
+
+export function filterByStatus(tasks: Task[], status: TaskStatus): Task[] {
+  return tasks.filter(function (task) {
+    return task.status === status;
+  });
+}
+
+export function deleteTask(tasks: Task[], id: number): Task[] {
+  return tasks.filter(function (task) {
+    return task.id !== id;
+  });
 }
